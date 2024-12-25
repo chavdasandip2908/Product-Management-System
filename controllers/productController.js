@@ -106,3 +106,8 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.getPaginatedProducts = (req, res) => {
+    const { results } = res.paginatedResults; // Access paginated results
+    res.json(results);
+};

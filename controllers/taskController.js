@@ -61,6 +61,26 @@ exports.getTaskById = async (req, res) => {
     }
 };
 
+// Get tasks with pagination
+exports.getPaginatedTasks = (req, res) => {
+    // The results are already attached to res.paginatedResults by the pagination middleware
+    const { results } = res.paginatedResults;
+    res.json(results);
+};
+
+// Get a task by ID
+exports.getTaskById = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+        res.json(task);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching task', error: error.message });
+    }
+};
+
 // Search tasks by description or product reference (optional)
 exports.searchTasks = async (req, res) => {
     const { query } = req.query; // Get the search query from user input
